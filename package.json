@@ -1,0 +1,17 @@
+{
+  "name": "upm-admin",
+  "version": "1.0.0",
+  "description": "UPM Admin Bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --watch --env-file=.env index.js"
+  },
+  "keywords": [],
+  "author": "mnoNoor",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "express": "^5.2.1",
+    "telegraf": "^4.16.3"
+  }
+}
