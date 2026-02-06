@@ -7,9 +7,6 @@ const app = express();
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const port = process.env.PORT;
 
-// const text = "السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ";
-// const text2 = "الســـلام علـــيكم ورحـــمة الله وبركاته";
-
 const TASHKEEL = /[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED]/g;
 const PUNCTUATION = /[.,$…!?؛،:"'()\[\]{}<>@#%^&*_+=\\\/|-]/g;
 
