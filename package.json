@@ -9,8 +9,9 @@
   "keywords": [],
   "author": "mnoNoor",
   "license": "ISC",
-  "type": "module",
+  "type": "commonjs",
   "dependencies": {
+    "arajs": "^1.0.13",
     "express": "^5.2.1",
     "telegraf": "^4.16.3"
   }
