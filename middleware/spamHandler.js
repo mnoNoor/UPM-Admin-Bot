@@ -38,7 +38,6 @@ const spamHandler = async (ctx, next) => {
         }
       }
 
-      await ctx.reply(`User banned for repeating spam.`);
       spamTracker.delete(userId);
       return;
     } catch (error) {
