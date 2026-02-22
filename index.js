@@ -4,6 +4,7 @@ const { readmessages } = require("./middleware/readMessagesAndDelete");
 const { spamHandler } = require("./middleware/spamHandler");
 const { isAllowedNumber } = require("./middleware/allowedNumbers");
 const { isMessageCoded } = require("./middleware/isMessageCoded.js");
+const { isAllowedContact } = require("./middleware/allowedContact.js");
 
 const app = express();
 const bot = new Telegraf(process.env.BOT_TOKEN);
@@ -14,7 +15,14 @@ app.use(express.json());
 const WEBHOOK_URL = `${process.env.WEBHOOK_BASE_URL}/webhook/${process.env.BOT_TOKEN}`;
 
 bot.start((ctx) => ctx.reply("Welcome to UPM Admin Bot!"));
-bot.on("text", readmessages, spamHandler, isAllowedNumber, isMessageCoded);
+bot.on(
+  "message",
+  readmessages,
+  spamHandler,
+  isAllowedNumber,
+  isMessageCoded,
+  isAllowedContact,
+);
 
 app.post(`/webhook/${process.env.BOT_TOKEN}`, (req, res) => {
   bot
@@ -32,7 +40,6 @@ app.get("/", (_, res) => {
 
 app.listen(port, async () => {
   console.log(`Bot is running on http://localhost:${port}`);
-
   try {
     await bot.telegram.setWebhook(WEBHOOK_URL);
     console.log(`Webhook set to ${WEBHOOK_URL}`);

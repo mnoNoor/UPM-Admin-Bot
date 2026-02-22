@@ -2,6 +2,8 @@ const max_Spam_Count = 3;
 const spamTracker = new Map();
 
 const spamHandler = async (ctx, next) => {
+  if (!ctx.message?.text) return next();
+
   const userId = ctx.from.id;
   const messageId = ctx.message.message_id;
   const text = ctx.message.text?.trim();
@@ -27,8 +29,14 @@ const spamHandler = async (ctx, next) => {
 
   spamTracker.set(userId, data);
 
+  const isGroup = ctx.chat?.type === "group" || ctx.chat?.type === "supergroup";
+
   if (data.count >= max_Spam_Count) {
     try {
+      if (!isGroup) {
+        await ctx.reply("I can't ban you in a private chat :(");
+        return;
+      }
       await ctx.telegram.banChatMember(ctx.chat.id, userId);
       for (const id of data.messageIds) {
         try {
@@ -42,6 +50,7 @@ const spamHandler = async (ctx, next) => {
       return;
     } catch (error) {
       console.error(error);
+      return next();
     }
   }
 
