@@ -17,7 +17,6 @@ const punish = async (ctx) => {
   try {
     await ctx.deleteMessage();
     await ctx.telegram.banChatMember(ctx.chat.id, ctx.from.id);
-    await ctx.reply("you are bad");
   } catch (err) {
     console.error("Moderation error:", err);
   }
