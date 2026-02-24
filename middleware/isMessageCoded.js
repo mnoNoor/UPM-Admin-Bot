@@ -1,4 +1,4 @@
-const bannedCharRegex = /[ڪטּ]/u;
+const bannedCharRegex = /[ڪטּﻳﺗ]/u;
 
 const isMessageCoded = async (ctx, next) => {
   try {
