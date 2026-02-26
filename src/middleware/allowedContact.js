@@ -1,8 +1,5 @@
-const wordsData = require("../wordsData.json");
-
-const normalizeNumber = (text) => text.replace(/\D/g, "");
-
-const allowedNumbers = new Set(wordsData.allowedNumbers.map(normalizeNumber));
+const NumberModel = require("../models/Number");
+const { normalizeNumber } = require("../normalization/normalizeNumber");
 
 const isGroup = (ctx) =>
   ctx.chat?.type === "group" || ctx.chat?.type === "supergroup";
@@ -28,7 +25,12 @@ const checkContactNumber = async (ctx) => {
 
   const normalized = normalizeNumber(phone);
 
-  if (!allowedNumbers.has(normalized)) {
+  const allowed = await NumberModel.find();
+  const allowedSet = new Set(
+    allowed.map((n) => normalizeNumber(n.value.toString())),
+  );
+
+  if (!allowedSet.has(normalized)) {
     await punish(ctx);
     return true;
   }

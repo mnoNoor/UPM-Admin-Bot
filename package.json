@@ -4,15 +4,16 @@
   "description": "UPM Admin Bot",
   "main": "index.js",
   "scripts": {
-    "start": "node --watch --env-file=.env index.js"
+    "start": "node --env-file=.env src/index.js"
   },
   "keywords": [],
   "author": "mnoNoor",
-  "license": "ISC",
+  "license": "MIT",
   "type": "commonjs",
   "dependencies": {
     "arajs": "^1.0.13",
     "express": "^5.2.1",
+    "mongoose": "^9.2.2",
     "telegraf": "^4.16.3"
   }
 }

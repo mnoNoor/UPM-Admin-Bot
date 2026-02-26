@@ -1,15 +1,16 @@
-const { normalize } = require("../normalizedText");
-const wordsData = require("../wordsData.json");
+const BanWord = require("../models/BanWord");
+const { normalize } = require("../normalization/normalizedText");
 
-const blockedWords = wordsData.blockedWords;
-
-const readmessages = async (ctx, next) => {
+const readMessages = async (ctx, next) => {
   if (!ctx.message?.text) return next();
 
   const messageText = ctx.message.text.toLowerCase();
   const normalizedText = normalize(messageText);
 
   const isPrivate = ctx.chat?.type === "private";
+
+  const blockedWordsDocs = await BanWord.find();
+  const blockedWords = blockedWordsDocs.map((b) => b.word.toLowerCase());
 
   for (const word of blockedWords) {
     if (normalizedText.includes(word)) {
@@ -33,4 +34,4 @@ const readmessages = async (ctx, next) => {
   await next();
 };
 
-module.exports = { readmessages };
+module.exports = { readMessages };
