@@ -10,9 +10,11 @@ const isAllowedNumber = async (ctx, next) => {
 
   const textWithoutUrls = messageText.replace(/https?:\/\/\S+/gi, " ");
 
-  const normalizedMessage = normalizeNumber(textWithoutUrls);
+  const numberSequences = textWithoutUrls.match(/\d+/g) || [];
 
-  if (!normalizedMessage) return next();
+  const hasLongSequence = numberSequences.some((seq) => seq.length >= 8);
+
+  if (!hasLongSequence) return next();
 
   const allowed = await NumberModel.find();
   const allowedSet = new Set(
@@ -21,13 +23,16 @@ const isAllowedNumber = async (ctx, next) => {
 
   let containsAllowed = false;
   for (const num of allowedSet) {
-    if (normalizedMessage.includes(num)) {
-      containsAllowed = true;
-      break;
+    for (const seq of numberSequences) {
+      if (seq.includes(num)) {
+        containsAllowed = true;
+        break;
+      }
     }
+    if (containsAllowed) break;
   }
 
-  if (!containsAllowed && /\d/.test(normalizedMessage)) {
+  if (!containsAllowed && hasLongSequence) {
     try {
       if (!isGroupChat) {
         await ctx.deleteMessage();
