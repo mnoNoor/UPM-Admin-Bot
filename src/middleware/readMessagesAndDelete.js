@@ -22,6 +22,12 @@ const readMessages = async (ctx, next) => {
       try {
         await ctx.deleteMessage();
         await ctx.telegram.banChatMember(ctx.chat.id, ctx.from.id);
+        const username = ctx.from.username
+          ? `@${ctx.from.username}`
+          : "unknown user";
+        console.log(
+          `${ctx.from.id}, (${username}) got banned because of blocked word: ${word} in message`,
+        );
         return;
       } catch (error) {
         console.error("Error deleting message:", error);

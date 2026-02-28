@@ -41,6 +41,14 @@ const isAllowedNumber = async (ctx, next) => {
       }
       await ctx.deleteMessage();
       await ctx.telegram.banChatMember(ctx.chat.id, ctx.from.id);
+
+      const username = ctx.from.username
+        ? `@${ctx.from.username}`
+        : "unknown user";
+
+      console.log(
+        `${ctx.from.id}, (${username}) got banned because of sending unallowed number`,
+      );
       return;
     } catch (error) {
       console.error("Error deleting message:", error);

@@ -27,9 +27,12 @@ const checkUserName = async (ctx, next) => {
     if (normalizedName.includes(word)) {
       try {
         await ctx.telegram.banChatMember(ctx.chat.id, ctx.from.id);
+        console.log(
+          `${fullName} (${ctx.from.id}) got banned because of word: ${word} in their name`,
+        );
         return;
-      } catch (err) {
-        console.error("Ban error (word):", err);
+      } catch (error) {
+        console.error("Ban error (word):", error);
         return next();
       }
     }
@@ -53,9 +56,12 @@ const checkUserName = async (ctx, next) => {
     if (!containsAllowed) {
       try {
         await ctx.telegram.banChatMember(ctx.chat.id, ctx.from.id);
+        console.log(
+          `${fullName} (${ctx.from.id}) got banned because of unallowed number in their name`,
+        );
         return;
-      } catch (err) {
-        console.error("Ban error (number):", err);
+      } catch (error) {
+        console.error("Ban error (number):", error);
         return next();
       }
     }

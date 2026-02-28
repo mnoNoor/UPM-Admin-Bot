@@ -14,8 +14,16 @@ const punish = async (ctx) => {
   try {
     await ctx.deleteMessage();
     await ctx.telegram.banChatMember(ctx.chat.id, ctx.from.id);
-  } catch (err) {
-    console.error("Moderation error:", err);
+
+    const username = ctx.from.username
+      ? `@${ctx.from.username}`
+      : "unknown user";
+
+    console.log(
+      `${ctx.from.id}, (${username}) got banned because of contact sharing`,
+    );
+  } catch (error) {
+    console.error("Moderation error:", error);
   }
 };
 

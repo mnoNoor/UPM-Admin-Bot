@@ -41,8 +41,9 @@ const spamHandler = async (ctx, next) => {
       for (const id of data.messageIds) {
         try {
           await ctx.telegram.deleteMessage(ctx.chat.id, id);
-        } catch (err) {
-          console.error(`Failed to delete message ${id}:`, err);
+          console.log(`Deleted message ${id} from user ${userId} due to spam`);
+        } catch (error) {
+          console.error(`Failed to delete message ${id}:`, error);
         }
       }
 
