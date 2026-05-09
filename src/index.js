@@ -16,7 +16,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-bot.start((ctx) => ctx.reply("Welcome to UPM Admin Bot!"));
+bot.start((ctx) => ctx.reply("قد يتم إضافة ردود قريبا"));
 
 bot.on(
   "message",
